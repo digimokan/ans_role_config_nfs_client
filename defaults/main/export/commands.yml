@@ -1,0 +1,8 @@
+# command to execute to show NFS shares exported by an NFS server on the LAN
+# Ex: 'showmount -e 192.168.2.15', 'showmount -e fileserver0'
+nfs_client_show_available_mounts: 'showmount -e'
+
+# command to execute to manually mount an available/exported NFS share
+# Ex: 'mount -t nfs fileserver0:/srv/nfs/music /mountpoint/on/client'
+nfs_client_mount_nfs_share: 'mount -t nfs'
+

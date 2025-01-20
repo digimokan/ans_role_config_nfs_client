@@ -1,0 +1,7 @@
+- name: "Install the 'nfs-utils' package"
+  ansible.builtin.package:
+    name: nfs-utils
+    state: present
+  become: true
+  become_user: root
+
