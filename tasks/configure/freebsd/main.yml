@@ -1,8 +1,8 @@
 # ref: https://docs.freebsd.org/en/books/handbook/network-servers/#_configuring_the_client
 
-- name: "Ensure 'nfs_client' service is started, and enable it to start at boot"
+- name: "Ensure 'nfsclient' service is started, and enable it to start at boot"
   ansible.builtin.service:
-    name: nfs_client
+    name: nfsclient
     state: started
     enabled: true
   become: true
