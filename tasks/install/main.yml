@@ -1,6 +1,6 @@
 - name: "Install NFS client packages for Ubuntu"
   ansible.builtin.include_tasks: ubuntu/main.yml
-  when: ansible_os_family == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
 
 - name: "Install NFS client packages for Arch Linux"
   ansible.builtin.include_tasks: archlinux/main.yml
