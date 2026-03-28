@@ -1,0 +1,44 @@
+# Ref: https://man.freebsd.org/cgi/man.cgi?query=nfsv4(4)
+# Ref: https://man.freebsd.org/cgi/man.cgi?mount_nfs(8)
+#
+- name: "Create main/parent NFS share mount dir at '{{ nfs_client_nfs_shares_main_mount_dir_path }}'"
+  ansible.builtin.file:
+    path: "{{ nfs_client_nfs_shares_main_mount_dir_path }}"
+    state: directory
+    owner: "{{ nfs_client_nfs_shares_main_mount_dir_owner }}"
+    group: "{{ nfs_client_nfs_shares_main_mount_dir_group }}"
+    mode: "{{ nfs_client_nfs_shares_main_mount_dir_permissions }}"
+  become: true
+  become_user: root
+  when: nfs_client_create_share_mount_dirs
+
+- name: "Create each NFS share mount subdir"
+  ansible.builtin.file:
+    path: "{{ nfs_client_nfs_shares_main_mount_dir_path }}/{{ sh.share }}"
+    state: directory
+    owner: "{{ nfs_client_nfs_shares_owner }}"
+    group: "{{ nfs_client_nfs_shares_group }}"
+    mode: "{{ nfs_client_nfs_shares_permissions }}"
+  loop: "{{ nfs_client_nfs_shares_to_mount }}"
+  loop_control:
+    loop_var: sh
+  become: true
+  become_user: root
+  when: nfs_client_create_share_mount_dirs
+
+- name: "Configure mounting of all NFS shares in '{{ nfs_client_etc_fstab_filepath }}'"
+  ansible.builtin.blockinfile:
+    path: "{{ nfs_client_etc_fstab_filepath }}"
+    block: |
+      {% for sh in nfs_client_nfs_shares_to_mount %}
+      {{ sh.hostname }}:{{ sh.pmount }}/{{ sh.share }} {{ mdir }}/{{ sh.share }} nfs {{ opts }} 0 0
+      {% endfor %}
+    marker: "# {mark} ANSIBLE MANAGED BLOCK: nfs_client_nfs_shares_to_mount"
+    state: "{{ 'present' if ((nfs_client_nfs_shares_to_mount | length) > 0) else 'absent' }}"
+    create: false
+  vars:
+    mdir: "{{ nfs_client_nfs_shares_main_mount_dir }}"
+    opts: "{{ nfs_client_share_mount_options }}"
+  become: true
+  become_user: root
+

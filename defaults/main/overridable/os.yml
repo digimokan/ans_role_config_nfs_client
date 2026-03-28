@@ -1,0 +1,28 @@
+# required NFS packages
+nfs_client_ubuntu_package_names:
+  - "nfs-common"
+nfs_client_archlinux_package_names:
+  - "nfs-utils"
+nfs_client_freebsd_package_names: []
+
+# NFS service name
+nfs_client_linux_service_name: "nfs-client"
+nfs_client_freebsd_service_name: "nfsclient"
+
+# NFS user@domain-mapping service name
+nfs_client_linux_mapping_service_name: "nfs-idmapd"
+nfs_client_freebsd_mapping_service_name: "nfsuserd"
+
+# NFSv4 client delegation-handling service name
+nfs_client_ubuntu_delegation_service_name: "nfs-common"
+nfs_client_archlinux_delegation_service_name: "rpc-gssd"
+nfs_client_freebsd_delegation_service_name: "nfscbd"
+
+# config file for mounting disk partitions and storage devices
+nfs_client_etc_fstab_filepath: "/etc/fstab"
+
+# /etc/fstab mounting options
+nfs_client_linux_share_mount_options: >-
+  _netdev,noauto,x-systemd.automount,x-systemd.mount-timeout=10,timeo=14,x-systemd.idle-timeout=1min
+nfs_client_freebsd_share_mount_options: >-
+  rw,bgnow,intr,nolockd

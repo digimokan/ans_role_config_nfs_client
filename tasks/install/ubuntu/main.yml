@@ -1,7 +1,0 @@
-- name: "Install the 'nfs-common' package"
-  ansible.builtin.package:
-    name: nfs-common
-    state: present
-  become: true
-  become_user: root
-

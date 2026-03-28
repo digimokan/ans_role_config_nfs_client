@@ -1,4 +1,6 @@
-- name: "Configure NFS client settings for FreeBSD"
-  ansible.builtin.include_tasks: freebsd/main.yml
-  when: ansible_os_family == "FreeBSD"
+- name: "Configure all NFS services"
+  ansible.builtin.include_tasks: services/main.yml
+
+- name: "Configure all NFS share mounts"
+  ansible.builtin.include_tasks: mounts/main.yml
 

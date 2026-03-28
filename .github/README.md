@@ -59,6 +59,10 @@ Install and configure the Network File System (NFS) client.
 
 ## Role Options
 
+Vars with default values, which can be overridden in the playbook:
+
+  * [overridable](../defaults/main/overridable)
+
 Vars defined by this role, exported with `public: true`, for use in other roles:
 
   * [export](../defaults/main/export/commands.yml)

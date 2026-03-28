@@ -1,0 +1,11 @@
+# version support for various NVFS versions
+nfs_client_enable_nfsv3: false
+nfs_client_enable_nfsv4: true
+
+# for NVSv4, enable a service to map user@domain (received from NFS client)
+# to UIDs and GIDs (on the NFS server's filesystem)
+nfs_client_nfsv4_enable_useratdomain_mapping_service: true
+
+# for NVSv4, increase performance by allowing client to manipulate file locally
+nfs_client_nfsv4_enable_client_delegations: true
+

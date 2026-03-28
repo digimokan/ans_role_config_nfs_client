@@ -1,0 +1,23 @@
+# a main dir on the client in which to mount each of the NFS share subdirs
+nfs_client_nfs_shares_main_mount_dir_path: "/nfs"
+nfs_client_nfs_shares_main_mount_dir_owner: "admin"
+nfs_client_nfs_shares_main_mount_dir_group: "admin"
+nfs_client_nfs_shares_main_mount_dir_permissions: 755
+
+# for share mounted at /parents/share, create the dir(s) before mounting share
+nfs_client_create_share_mount_dirs: true
+
+# list of NFS-server-provided shares to mount in the main dir
+#   hostname: name of server that hosts the NFS share
+#             NOTE: requires that DNS is available to use hostname for mount
+#   share: name of NFS share
+#   pmount: parent mount dir on server
+#           e.g. 'share' of 'Movies' with 'pmount' of '/data' means
+#                share is mounted on the server at /data/Movies
+nfs_client_nfs_shares_to_mount: []
+# - { hostname: 'nas-0', share: 'Movies', pmount: '/data' }
+# - { hostname: 'nas-0', share: 'Shows', pmount: '/data' }
+nfs_client_nfs_shares_owner: "user2"
+nfs_client_nfs_shares_group: "user2"
+nfs_client_nfs_shares_permissions: 755
+

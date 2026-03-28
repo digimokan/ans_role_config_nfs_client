@@ -1,6 +1,33 @@
-- name: "Install the NFS client"
-  ansible.builtin.include_tasks: install/main.yml
+- name: "Set all OS-specific role vars for Ubuntu"
+  ansible.builtin.set_fact:
+    nfs_client_package_names: "{{ nfs_client_ubuntu_package_names }}"
+    nfs_client_service_name: "{{ nfs_client_ubuntu_service_name }}"
+    nfs_client_mapping_service_name: "{{ nfs_client_linux_mapping_service_name }}"
+    nfs_client_delegation_service_name: "{{ nfs_client_ubuntu_delegation_service_name }}"
+    nfs_client_share_mount_options: "{{ nfs_client_linux_share_mount_options }}"
+  when: ansible_distribution == "Ubuntu"
 
-- name: "Configure the NFS client"
-  ansible.builtin.include_tasks: configure/main.yml
+- name: "Set all OS-specific role vars for Arch Linux"
+  ansible.builtin.set_fact:
+    nfs_client_package_names: "{{ nfs_client_archlinux_package_names }}"
+    nfs_client_service_name: "{{ nfs_client_archlinux_service_name }}"
+    nfs_client_mapping_service_name: "{{ nfs_client_linux_mapping_service_name }}"
+    nfs_client_delegation_service_name: "{{ nfs_client_archlinux_delegation_service_name }}"
+    nfs_client_share_mount_options: "{{ nfs_client_linux_share_mount_options }}"
+  when: ansible_os_family == "Archlinux"
+
+- name: "Set all OS-specific role vars for FreeBSD"
+  ansible.builtin.set_fact:
+    nfs_client_package_names: "{{ nfs_client_freebsd_package_names }}"
+    nfs_client_service_name: "{{ nfs_client_freebsd_service_name }}"
+    nfs_client_mapping_service_name: "{{ nfs_client_freebsd_mapping_service_name }}"
+    nfs_client_delegation_service_name: "{{ nfs_client_freebsd_delegation_service_name }}"
+    nfs_client_share_mount_options: "{{ nfs_client_freebsd_share_mount_options }}"
+  when: ansible_os_family == "FreeBSD"
+
+- name: "Run all role tasks"
+  ansible.builtin.include_tasks: run_all_tasks.yml
+  vars:
+    en_v3: "{{ nfs_client_enable_nfsv3 }}"
+    en_v4: "{{ nfs_client_enable_nfsv4 }}"
 
