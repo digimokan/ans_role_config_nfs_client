@@ -41,4 +41,5 @@
     opts: "{{ nfs_client_share_mount_options }}"
   become: true
   become_user: root
+  notify: restart_nfs_client_services
 

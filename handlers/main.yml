@@ -1,0 +1,15 @@
+- name: "Restart all NFS services, as required"
+  ansible.builtin.service:
+    name: "{{ setting.nm }}"
+    state: "{{ 'restarted' if setting.st else 'stopped' }}"
+  loop:
+    - { nm: "{{ nfs_client_service_name }}",
+        st: "{{ en_v3 or en_v4 }}" }
+    - { nm: "{{ nfs_client_mapping_service_name }}",
+        st: "{{ en_v4 and nfs_client_nfsv4_enable_useratdomain_mapping_service }}" }
+    - { nm: "{{ nfs_client_delegation_service_name }}",
+        st: "{{ en_v4 and nfs_client_nfsv4_enable_client_delegations }}" }
+  become: true
+  become_user: root
+  listen: restart_nfs_client_services
+
