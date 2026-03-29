@@ -4,11 +4,11 @@
     state: "{{ 'restarted' if setting.st else 'stopped' }}"
   loop:
     - { nm: "{{ nfs_client_service_name }}",
-        st: "{{ en_v3 or en_v4 }}" }
+        st: "{{ nfs_client_enable_nfsv3 or nfs_client_enable_nfsv4 }}" }
     - { nm: "{{ nfs_client_mapping_service_name }}",
-        st: "{{ en_v4 and en_v4_map_svc }}" }
+        st: "{{ nfs_client_enable_nfsv4 and nfs_client_nfsv4_enable_useratdomain_mapping_service }}" }
     - { nm: "{{ nfs_client_delegation_service_name }}",
-        st: "{{ en_v4 and en_v4_cli_del }}" }
+        st: "{{ nfs_client_enable_nfsv4 and nfs_client_nfsv4_enable_client_delegations }}" }
   become: true
   become_user: root
   listen: restart_nfs_client_services
