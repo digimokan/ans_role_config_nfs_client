@@ -1,6 +1,6 @@
-- name: "Configure all NFS services"
-  ansible.builtin.include_tasks: services/main.yml
-
 - name: "Configure all NFS share mounts"
   ansible.builtin.include_tasks: mounts/main.yml
+
+- name: "Configure all NFS services"
+  ansible.builtin.include_tasks: services/main.yml
 
