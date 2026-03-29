@@ -19,14 +19,15 @@
     name: "{{ setting.nm }}"
     state: "{{ setting.st }}"
   loop:
-    - { nm: "{{ nfs_client_service_name }}",
+    - { nm: "{{ nfs_client_service_name }}", ignore_change: true,
         st: "{{ 'started' if (en_v3 or en_v4) else 'stopped' }}" }
-    - { nm: "{{ nfs_client_mapping_service_name }}",
+    - { nm: "{{ nfs_client_mapping_service_name }}", ignore_change: false,
         st: "{{ 'started' if (en_v4 and en_v4_map_svc) else 'stopped' }}" }
-    - { nm: "{{ nfs_client_delegation_service_name }}",
+    - { nm: "{{ nfs_client_delegation_service_name }}", ignore_change: false,
         st: "{{ 'started' if (en_v4 and en_v4_cli_del) else 'stopped' }}" }
   loop_control:
     loop_var: setting
+  changed_when: not setting.ignore_change
   become: true
   become_user: root
 
