@@ -9,6 +9,8 @@
         st: "{{ nfs_client_enable_nfsv4 and nfs_client_nfsv4_enable_useratdomain_mapping_service }}" }
     - { nm: "{{ nfs_client_delegation_service_name }}",
         st: "{{ nfs_client_enable_nfsv4 and nfs_client_nfsv4_enable_client_delegations }}" }
+  loop_control:
+    loop_var: setting
   become: true
   become_user: root
   listen: restart_nfs_client_services
