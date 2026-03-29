@@ -1,14 +1,14 @@
 - name: "Ensure all NFS services are enabled or disabled to start at boot, as required"
   ansible.builtin.service:
     name: "{{ setting.nm }}"
-    enabled: "{{ setting.st }}"
+    enabled: "{{ setting.st == 'enable' }}"
   loop:
     - { nm: "{{ nfs_client_service_name }}",
-        st: "{{ en_v3 or en_v4 }}" }
+        st: "{{ 'enable' if (en_v3 or en_v4) else 'disable' }}" }
     - { nm: "{{ nfs_client_mapping_service_name }}",
-        st: "{{ en_v4 and nfs_client_nfsv4_enable_useratdomain_mapping_service }}" }
+        st: "{{ 'enable' if (en_v4 and en_v4_map_svc) else 'disable' }}" }
     - { nm: "{{ nfs_client_delegation_service_name }}",
-        st: "{{ en_v4 and nfs_client_nfsv4_enable_client_delegations }}" }
+        st: "{{ 'enable' if (en_v4 and en_v4_cli_del) else 'disable' }}" }
   loop_control:
     loop_var: setting
   become: true
@@ -17,14 +17,14 @@
 - name: "Ensure all NFS services are started or stopped, as required"
   ansible.builtin.service:
     name: "{{ setting.nm }}"
-    state: "{{ 'started' if setting.st else 'stopped' }}"
+    state: "{{ setting.st }}"
   loop:
     - { nm: "{{ nfs_client_service_name }}",
-        st: "{{ en_v3 or en_v4 }}" }
+        st: "{{ 'started' if (en_v3 or en_v4) else 'stopped' }}" }
     - { nm: "{{ nfs_client_mapping_service_name }}",
-        st: "{{ en_v4 and nfs_client_nfsv4_enable_useratdomain_mapping_service }}" }
+        st: "{{ 'started' if (en_v4 and en_v4_map_svc) else 'stopped' }}" }
     - { nm: "{{ nfs_client_delegation_service_name }}",
-        st: "{{ en_v4 and nfs_client_nfsv4_enable_client_delegations }}" }
+        st: "{{ 'started' if (en_v4 and en_v4_cli_del) else 'stopped' }}" }
   loop_control:
     loop_var: setting
   become: true

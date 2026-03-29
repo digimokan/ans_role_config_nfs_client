@@ -31,14 +31,11 @@
     path: "{{ nfs_client_etc_fstab_filepath }}"
     block: |
       {% for sh in nfs_client_nfs_shares_to_mount %}
-      {{ sh.hostname }}:{{ sh.pmount }}/{{ sh.share }} {{ mdir }}/{{ sh.share }} nfs {{ opts }} 0 0
+      {{ sh.hostname }}:{{ sh.pmount }}/{{ sh.share }} {{ nfs_main_mnt_dir }}/{{ sh.share }} nfs {{ nfs_mnt_opts }} 0 0
       {% endfor %}
     marker: "# {mark} ANSIBLE MANAGED BLOCK: nfs_client_nfs_shares_to_mount"
     state: "{{ 'present' if ((nfs_client_nfs_shares_to_mount | length) > 0) else 'absent' }}"
     create: false
-  vars:
-    mdir: "{{ nfs_client_nfs_shares_main_mount_dir }}"
-    opts: "{{ nfs_client_share_mount_options }}"
   become: true
   become_user: root
   notify: restart_nfs_client_services

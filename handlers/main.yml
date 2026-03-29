@@ -6,9 +6,9 @@
     - { nm: "{{ nfs_client_service_name }}",
         st: "{{ en_v3 or en_v4 }}" }
     - { nm: "{{ nfs_client_mapping_service_name }}",
-        st: "{{ en_v4 and nfs_client_nfsv4_enable_useratdomain_mapping_service }}" }
+        st: "{{ en_v4 and en_v4_map_svc }}" }
     - { nm: "{{ nfs_client_delegation_service_name }}",
-        st: "{{ en_v4 and nfs_client_nfsv4_enable_client_delegations }}" }
+        st: "{{ en_v4 and en_v4_cli_del }}" }
   become: true
   become_user: root
   listen: restart_nfs_client_services

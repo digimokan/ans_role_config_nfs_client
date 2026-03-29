@@ -30,4 +30,8 @@
   vars:
     en_v3: "{{ nfs_client_enable_nfsv3 }}"
     en_v4: "{{ nfs_client_enable_nfsv4 }}"
+    en_v4_map_svc: "{{ nfs_client_nfsv4_enable_useratdomain_mapping_service }}"
+    en_v4_cli_del: "{{ nfs_client_nfsv4_enable_client_delegations }}"
+    nfs_main_mnt_dir: "{{ nfs_client_nfs_shares_main_mount_dir }}"
+    nfs_mnt_opts: "{{ nfs_client_share_mount_options }}"
 
