@@ -10,7 +10,7 @@
       {{
         nfs_client_nfs_shares_to_mount
         | map(attribute='share')
-        | map('regex_replace', '^', main_mnt_path + '/')
+        | map('regex_replace', '^', nfs_main_mnt_dir + '/')
         | list
       }}
     nfs_client_mount_paths_tagged_in_fstab: >-
