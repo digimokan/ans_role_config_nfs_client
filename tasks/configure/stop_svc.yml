@@ -1,0 +1,14 @@
+- name: "Ensure all NFS services are stopped"
+  ansible.builtin.service:
+    name: "{{ service_name }}"
+    state: "stopped"
+  loop:
+    - "{{ nfs_client_service_name }}"
+    - "{{ nfs_client_mapping_service_name }}"
+    - "{{ nfs_client_delegation_service_name }}"
+  loop_control:
+    loop_var: service_name
+  changed_when: false
+  become: true
+  become_user: root
+

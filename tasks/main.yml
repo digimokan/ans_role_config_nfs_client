@@ -34,4 +34,5 @@
     en_v4_cli_del: "{{ nfs_client_nfsv4_enable_client_delegations }}"
     nfs_main_mnt_dir: "{{ nfs_client_nfs_shares_main_mount_dir_path }}"
     nfs_mnt_opts: "{{ nfs_client_share_mount_options }}"
+    etc_fstab_mount_tag: "comment={{ role_name | basename }}"
 

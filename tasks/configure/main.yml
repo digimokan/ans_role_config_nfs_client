@@ -1,6 +1,16 @@
-- name: "Configure all NFS share mounts"
-  ansible.builtin.include_tasks: mounts/main.yml
+- name: "Unmount all NFS shares"
+  ansible.builtin.include_tasks: unmount.yml
 
-- name: "Configure all NFS services"
-  ansible.builtin.include_tasks: services/main.yml
+- name: "Stop all NFS services"
+  ansible.builtin.include_tasks: stop_svc.yml
+
+- name: "Create NFS share mount directories, and parent mount directory"
+  ansible.builtin.include_tasks: create_dirs.yml
+  when: nfs_client_create_share_mount_dirs
+
+- name: "Enable and restart all NFS services"
+  ansible.builtin.include_tasks: en_start_svc.yml
+
+- name: "Remount all NFS shares"
+  ansible.builtin.include_tasks: remount.yml
 

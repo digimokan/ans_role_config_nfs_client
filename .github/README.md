@@ -57,13 +57,8 @@ Install and configure the Network File System (NFS) client.
            public: true
          vars:
            nfs_client_nfs_shares_main_mount_dir_path: "/net"
-           nfs_client_nfs_shares_main_mount_dir_owner: "root"
-           nfs_client_nfs_shares_main_mount_dir_group: "wheel"
-           nfs_client_nfs_shares_main_mount_dir_permissions: 755
+           nfs_client_nfs_share_dirs_root_group: "wheel"
            nfs_client_nfs_shares_to_mount: "{{ my_nfs_shares_list }}"
-           nfs_client_nfs_shares_owner: "user2"
-           nfs_client_nfs_shares_group: "user2"
-           nfs_client_nfs_shares_permissions: 755
    ```
 
 ## Role Options

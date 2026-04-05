@@ -1,0 +1,17 @@
+# Ref: https://man.freebsd.org/cgi/man.cgi?query=nfsv4(4)
+# Ref: https://man.freebsd.org/cgi/man.cgi?mount_nfs(8)
+
+- name: "Emplace, configure, and tag the target NFS share mounts in '{{ nfs_client_etc_fstab_filepath }}'"
+  ansible.posix.mount:
+    fstab: "{{ nfs_client_etc_fstab_filepath }}"
+    src: "{{ sh.hostname }}:{{ sh.pmount }}/{{ sh.share }}"
+    path: "{{ nfs_main_mnt_dir }}/{{ sh.share }}"
+    fstype: "nfs"
+    opts: "{{ nfs_mnt_opts }},{{ etc_fstab_mount_tag }}"
+    state: mounted
+  loop: "{{ nfs_client_nfs_shares_to_mount }}"
+  loop_control:
+    loop_var: sh
+  become: true
+  become_user: root
+

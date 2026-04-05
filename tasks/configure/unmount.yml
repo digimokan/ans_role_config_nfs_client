@@ -1,0 +1,47 @@
+- name: "Get all current mounts in '{{ nfs_client_etc_fstab_filepath }}'"
+  ansible.builtin.command:
+    cmd: "cat {{ nfs_client_etc_fstab_filepath | quote }}"
+  register: fstab_output
+  changed_when: false
+
+- name: "Determine target NFS share mount paths, and tagged mounts in '{{ nfs_client_etc_fstab_filepath }}'"
+  ansible.builtin.set_fact:
+    nfs_client_target_mount_paths: >-
+      {{
+        nfs_client_nfs_shares_to_mount
+        | map(attribute='share')
+        | map('regex_replace', '^', main_mnt_path + '/')
+        | list
+      }}
+    nfs_client_mount_paths_tagged_in_fstab: >-
+      {{
+        fstab_output.stdout_lines
+        | select('search', etc_fstab_mount_tag)
+        | map('split')
+        | map(attribute=1)
+        | list
+      }}
+
+- name: "Unmount old tagged NFS share mounts, and remove them from '{{ nfs_client_etc_fstab_filepath }}'"
+  ansible.posix.mount:
+    fstab: "{{ nfs_client_etc_fstab_filepath }}"
+    path: "{{ tagged_fstab_path }}"
+    state: absent
+  loop: "{{ nfs_client_mount_paths_tagged_in_fstab }}"
+  loop_control:
+    loop_var: tagged_fstab_path
+  when: tagged_fstab_path not in nfs_client_target_mount_paths
+  become: true
+  become_user: root
+
+- name: "Unmount target tagged NFS share mounts, and leave them in '{{ nfs_client_etc_fstab_filepath }}'"
+  ansible.posix.mount:
+    fstab: "{{ nfs_client_etc_fstab_filepath }}"
+    path: "{{ tagged_fstab_path }}"
+    state: unmounted
+  loop: "{{ nfs_client_mount_paths_tagged_in_fstab }}"
+  loop_control:
+    loop_var: tagged_fstab_path
+  become: true
+  become_user: root
+

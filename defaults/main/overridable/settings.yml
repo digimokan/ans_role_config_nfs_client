@@ -9,3 +9,13 @@ nfs_client_nfsv4_enable_useratdomain_mapping_service: true
 # for NVSv4, increase performance by allowing client to manipulate file locally
 nfs_client_nfsv4_enable_client_delegations: true
 
+# create mount dirs on client (and main dir) before mounting shares
+nfs_client_create_share_mount_dirs: true
+
+# main/parent dir on client in which to mount each of the NFS share subdirs
+# NOTE: should be a subdir of '/'
+nfs_client_nfs_shares_main_mount_dir_path: "/nfs"
+
+# main/parent dir and share subdirs must be owned by root
+nfs_client_nfs_share_dirs_root_group: "root"
+
